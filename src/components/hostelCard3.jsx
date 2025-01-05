@@ -12,7 +12,7 @@ const HostelCard3 = ({ hostel }) => {
         </CardDescription>
         <CardDescription className="text-xs mb-1">{hostel.distance}</CardDescription>
         <CardDescription className="text-xs mb-1">
-          From <span className="font-bold">{hostel.priceRange}</span>
+          From <span className="font-bold">GHS {hostel.price}</span>
         </CardDescription>
         <CardDescription className="text-xs text-gray-500">{hostel.description}</CardDescription>
       </CardContent>

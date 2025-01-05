@@ -5,11 +5,13 @@ import HostelCard3 from "@/components/HostelCard3";
 import { Facebook, Instagram, Twitter, ChevronLeft, ChevronRight } from "lucide-react";
 import Footer from "@/components/Footer";
 import MenuSheet from "@/components/menuSheet";
-import { fetchHostels } from '@/api';
+import { fetchHostelsByCategory } from '@/api';
 
 const HostelPage = () => {
   const scrollRef = useRef(null);
-  const [hostels, setHostels] = useState([]);
+  const [popularHostels, setPopularHostels] = useState([]);
+  const [topHostels, setTopHostels] = useState([]);
+  const [normalHostels, setNormalHostels] = useState([]);
   const [error, setError] = useState(null);
 
   const scrollLeft = () => {
@@ -23,8 +25,12 @@ const HostelPage = () => {
   useEffect(() => {
     const getHostels = async () => {
       try {
-        const data = await fetchHostels();
-        setHostels(data);
+        const popularData = await fetchHostelsByCategory('popular');
+        const topData = await fetchHostelsByCategory('top');
+        const normalData = await fetchHostelsByCategory('normal');
+        setPopularHostels(popularData);
+        setTopHostels(topData);
+        setNormalHostels(normalData);
       } catch (error) {
         setError('Failed to fetch hostels');
       }
@@ -76,13 +82,12 @@ const HostelPage = () => {
         <hr className="border-t-1 border-gray-400" />
 
         <section className="text-center py-6">
-          <h2 className="text-2xl mt-4 text-gray-800">Top Hostels <span className="text-yellow-600">Worldwide</span></h2>
-          <h4 className="text-slategray mb-4">Discover popular places for unforgettable experiences</h4>
+          <h2 className="text-2xl mt-4 text-gray-800">Popular Hostels <span className="text-yellow-600">Worldwide</span></h2>
           <div className="grid grid-cols-4 gap-10 max-w-full px-40 mx-auto">
-            {hostels.map((hostel) => (
+            {popularHostels.map((hostel) => (
               <HostelCard
                 key={hostel.id}
-                image={`/src/assets/public/${hostel.image}`}
+                image={hostel.image}
                 title={hostel.name}
                 price={hostel.price}
                 handle={hostel.handle}
@@ -93,15 +98,6 @@ const HostelPage = () => {
 
         <section className="py-8 px-20 mt-10">
           <h3 className="text-2xl text-center my-10 text-black">TOP <span className="text-yellow-600">HOSTELS</span></h3>
-          <div className="text-center my-4">
-            <nav className="inline-flex justify-center gap-8 mt-4">
-              <a href="#ayeduase" className="text-xs text-gray-800 font-medium transition-colors hover:text-gray-500 underline">Ayeduase</a>
-              <a href="#bomso" className="text-xs text-gray-800 font-medium transition-colors hover:text-gray-500">Bomso</a>
-              <a href="#gaza" className="text-xs text-gray-800 font-medium transition-colors hover:text-gray-500">Gaza</a>
-              <a href="#kotei" className="text-xs text-gray-800 font-medium transition-colors hover:text-gray-500">Kotei</a>
-            </nav>
-          </div>
-
           <div className="relative py-3 mt-8 bg-white rounded-lg shadow-md">
             <div className="absolute top-0 left-0 bg-yellow-500 text-white font-bold p-2 rounded-br-md text-xs">
               Most Popular
@@ -110,7 +106,7 @@ const HostelPage = () => {
               <ChevronLeft className="w-4 h-4" />
             </button>
             <div ref={scrollRef} className="overflow-x-auto flex space-x-4 p-4 scrollbar-hide">
-              {hostels.map((hostel, index) => (
+              {topHostels.map((hostel, index) => (
                 <div key={index} className="min-w-[230px]">
                   <HostelCardHori hostel={hostel} />
                 </div>
@@ -124,10 +120,10 @@ const HostelPage = () => {
 
         <section className="py-8">
           <div className="text-center mb-4">
-            <h2 className="text-2xl mb-4">Featured <span className="text-yellow-600">HOSTELS</span></h2>
+            <h2 className="text-2xl mb-4">Normal <span className="text-yellow-600">HOSTELS</span></h2>
           </div>
           <div className="space-y-4">
-            {hostels.map((hostel, index) => (
+            {normalHostels.map((hostel, index) => (
               <HostelCard3 key={index} hostel={hostel} />
             ))}
           </div>
@@ -135,6 +131,7 @@ const HostelPage = () => {
       </div>
       <Footer />
     </div>
+
   );
 };
 
