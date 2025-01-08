@@ -8,7 +8,7 @@ const HostelCard = ({ title, image, price, handle }) => {
   const placeholderImage = 'https://via.placeholder.com/140'; // Placeholder image URL
 
   const handleClick = () => {
-    navigate('/HostelCardIn');
+    navigate(`/HostelCardIn/${hostel.id}`);
   };
 
   return (
@@ -28,7 +28,7 @@ const HostelCard = ({ title, image, price, handle }) => {
       </CardContent>
       {handle && (
         <div className="absolute bottom-4 right-4 flex items-center ">
-          <Instagram className="mr-1 w-3 h-3" />
+          <Instagram className="mr-1 w-3 h-3 text-white"  />
           <a
             href={`https://www.instagram.com/${handle}`}
             target="_blank"

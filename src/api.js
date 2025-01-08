@@ -45,3 +45,19 @@ export const fetchPricing = async () => {
         throw error; // Rethrow the error for handling in the component
     }
 };
+
+
+// Function to fetch pricing details for a specific hostel
+export const fetchPricingForHostel = async (hostelId) => {
+    try {
+        const response = await fetch(`${PRICING_URL}/${hostelId}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching pricing details for hostel:', error);
+        throw error;
+    }
+};

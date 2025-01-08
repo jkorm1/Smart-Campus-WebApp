@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // Import useParams here
+import { useParams } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
-import Footer from '@/components/footer';
-import MenuSheet from "@/components/menuSheet";
-import { fetchPricing } from '@/api'; // Import the fetch functions
+import Footer from '@/components/Footer';
+import MenuSheet from "@/components/MenuSheet";
+import { fetchPricingForHostel } from '@/api'; // Correct import
 import PricingCard from '@/components/PricingCard';
 
 const HostelCardIn = () => {
-  const [pricingDetails, setPricingDetails] = useState([]); // State for pricing details
+  const [pricingDetails, setPricingDetails] = useState([]);
   const [error, setError] = useState(null);
-  const { id } = useParams(); // Get the hostel ID from the URL
+  const { id } = useParams();
 
   useEffect(() => {
-
     const getPricingDetails = async () => {
       try {
-        const pricingData = await fetchPricing(); // Fetch pricing details
-        console.log('Pricing details fetched:', pricingData); // Log the fetched pricing details
-        setPricingDetails(pricingData);
+        if (id) { // Ensure 'id' is defined
+          const pricingData = await fetchPricingForHostel(id); // Fetch pricing details for specific hostel
+          setPricingDetails(pricingData);
+        } else {
+          setError('Hostel ID is not defined');
+        }
       } catch (error) {
         console.error('Failed to fetch pricing details:', error);
         setError('Failed to fetch pricing details');
@@ -30,8 +32,6 @@ const HostelCardIn = () => {
   if (error) {
     return <div>{error}</div>; // Display error message if fetching fails
   }
-
-
 
   if (pricingDetails.length === 0) {
     return <div>Loading pricing details...</div>; // Show loading state for pricing
@@ -69,6 +69,7 @@ const HostelCardIn = () => {
             <p className="mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim...</p>
           </div>
         </div>
+
 
         {/* Rooms Section */}
         <div id="rooms" className="my-20 text-center">
