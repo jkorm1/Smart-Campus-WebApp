@@ -13,6 +13,7 @@ const HostelPage = () => {
   const [topHostels, setTopHostels] = useState([]);
   const [normalHostels, setNormalHostels] = useState([]);
   const [error, setError] = useState(null);
+  const [type, setType] = useState('hostel'); // New state for type
 
   const scrollLeft = () => {
     scrollRef.current.scrollBy({ left: -200, behavior: "smooth" });
@@ -25,9 +26,9 @@ const HostelPage = () => {
   useEffect(() => {
     const getHostels = async () => {
       try {
-        const popularData = await fetchHostelsByCategory('popular');
-        const topData = await fetchHostelsByCategory('top');
-        const normalData = await fetchHostelsByCategory('normal');
+        const popularData = await fetchHostelsByCategory('popular', type);
+        const topData = await fetchHostelsByCategory('top', type);
+        const normalData = await fetchHostelsByCategory('normal', type);
         setPopularHostels(popularData);
         setTopHostels(topData);
         setNormalHostels(normalData);
@@ -37,7 +38,7 @@ const HostelPage = () => {
     };
 
     getHostels();
-  }, []);
+  }, [type]); // Include type as a dependency
 
   if (error) {
     return <div>{error}</div>;
@@ -60,6 +61,7 @@ const HostelPage = () => {
               type="text"
               placeholder="&#x1F4CD; Where do you want to go?"
               className="p-2 w-1/2 text-lg rounded border border-gray-300"
+              onChange={(e) => setType(e.target.value)} // Set type based on user input
             />
           </div>
         </section>
@@ -68,9 +70,23 @@ const HostelPage = () => {
 
         <div className="flex items-center justify-between p-4 bg-white">
           <div className="flex gap-8 items-center justify-center ml-auto">
-            <a href="#hostels" className="text-xs text-gray-800 font-medium transition-colors hover:text-gray-500 underline">Hostel</a>
-            <a href="#homstel" className="text-xs text-gray-800 font-medium transition-colors hover:text-gray-500">Homstel</a>
-            <a href="#food-joints" className="text-xs text-gray-800 font-medium transition-colors hover:text-gray-500">Food Joint</a>
+            <a
+              href="#hostels"
+              className={`text-xs text-gray-800 font-medium transition-colors hover:text-gray-500 ${type === 'hostel' ? 'underline' : ''}`}
+              onClick={() => setType('hostel')}
+            >
+              Hostel
+            </a>
+            <a
+              href="#homstel"
+              className={`text-xs text-gray-800 font-medium transition-colors hover:text-gray-500 ${type === 'homstel' ? 'underline' : ''}`}
+              onClick={() => setType('homstel')}
+            >
+              Homstel
+            </a>
+            <a href="#food-joints" className="text-xs text-gray-800 font-medium transition-colors hover:text-gray-500">
+              Food Joint
+            </a>
           </div>
           <div className="flex gap-4 ml-auto text-2xl text-gray-800 transition-colors">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><Facebook className="hover:text-gray-500 h-4 w-4" /></a>
@@ -131,7 +147,6 @@ const HostelPage = () => {
       </div>
       <Footer />
     </div>
-
   );
 };
 

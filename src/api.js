@@ -12,21 +12,21 @@ export const fetchHostels = async () => {
         return data;
     } catch (error) {
         console.error('Error fetching hostels:', error);
-        throw error; // Rethrow the error for handling in the component
+        throw error;
     }
 };
 
-// Function to fetch hostels by category
-export const fetchHostelsByCategory = async (category) => {
+// Function to fetch hostels by category and type
+export const fetchHostelsByCategory = async (category, type = 'hostel') => {
     try {
-        const response = await fetch(`${API_URL}?category=${category}`);
+        const response = await fetch(`${API_URL}?category=${category}&type=${type}`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error(`Error fetching ${category} hostels:`, error);
+        console.error(`Error fetching ${category} ${type}s:`, error);
         throw error; // Rethrow the error for handling in the component
     }
 };
@@ -45,7 +45,6 @@ export const fetchPricing = async () => {
         throw error; // Rethrow the error for handling in the component
     }
 };
-
 
 // Function to fetch pricing details for a specific hostel
 export const fetchPricingForHostel = async (hostelId) => {
