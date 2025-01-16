@@ -6,6 +6,7 @@ import { Facebook, Instagram, Twitter, ChevronLeft, ChevronRight } from "lucide-
 import Footer from "@/components/Footer";
 import MenuSheet from "@/components/menuSheet";
 import { fetchHostelsByCategory } from '@/api';
+import { Link } from 'react-router-dom';
 
 const HostelPage = () => {
   const scrollRef = useRef(null);
@@ -97,9 +98,10 @@ const HostelPage = () => {
             >
               Homstel
             </a>
-            <a href="#food-joints" className="text-xs text-gray-800 font-medium transition-colors hover:text-gray-500">
-              Food Joint
-            </a>
+            <Link 
+            to="/food-joints" className="text-xs text-gray-800 font-medium transition-colors hover:text-gray-500" >
+             Food Joint 
+            </Link>
           </div>
           <div className="flex gap-4 ml-auto text-2xl text-gray-800 transition-colors">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><Facebook className="hover:text-gray-500 h-4 w-4" /></a>
