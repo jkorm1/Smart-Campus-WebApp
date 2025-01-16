@@ -13,7 +13,8 @@ const HostelPage = () => {
   const [topHostels, setTopHostels] = useState([]);
   const [normalHostels, setNormalHostels] = useState([]);
   const [error, setError] = useState(null);
-  const [type, setType] = useState('hostel'); // New state for type
+  const [type, setType] = useState('hostel');
+  const [searchQuery, setSearchQuery] = useState(''); // New state for search query
 
   const scrollLeft = () => {
     scrollRef.current.scrollBy({ left: -200, behavior: "smooth" });
@@ -38,7 +39,19 @@ const HostelPage = () => {
     };
 
     getHostels();
-  }, [type]); // Include type as a dependency
+  }, [type]);
+
+  const filteredPopularHostels = popularHostels.filter(hostel =>
+    hostel.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredTopHostels = topHostels.filter(hostel =>
+    hostel.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredNormalHostels = normalHostels.filter(hostel =>
+    hostel.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (error) {
     return <div>{error}</div>;
@@ -61,7 +74,7 @@ const HostelPage = () => {
               type="text"
               placeholder="&#x1F4CD; Where do you want to go?"
               className="p-2 w-1/2 text-lg rounded border border-gray-300"
-              onChange={(e) => setType(e.target.value)} // Set type based on user input
+              onChange={(e) => setSearchQuery(e.target.value)} // Set search query based on user input
             />
           </div>
         </section>
@@ -100,13 +113,14 @@ const HostelPage = () => {
         <section className="text-center py-6">
           <h2 className="text-2xl mt-4 text-gray-800">Popular Hostels <span className="text-yellow-600">Worldwide</span></h2>
           <div className="grid grid-cols-4 gap-10 max-w-full px-40 mx-auto">
-            {popularHostels.map((hostel) => (
+            {filteredPopularHostels.map((hostel) => (
               <HostelCard
                 key={hostel.id}
                 image={hostel.image}
                 title={hostel.name}
                 price={hostel.price}
                 handle={hostel.handle}
+                hostel={hostel}
               />
             ))}
           </div>
@@ -122,8 +136,8 @@ const HostelPage = () => {
               <ChevronLeft className="w-4 h-4" />
             </button>
             <div ref={scrollRef} className="overflow-x-auto flex space-x-4 p-4 scrollbar-hide">
-              {topHostels.map((hostel, index) => (
-                <div key={index} className="min-w-[230px]">
+              {filteredTopHostels.map((hostel, index) => (
+                <div key={index} className="min-w-[230px]"> 
                   <HostelCardHori hostel={hostel} />
                 </div>
               ))}
@@ -139,7 +153,7 @@ const HostelPage = () => {
             <h2 className="text-2xl mb-4">Normal <span className="text-yellow-600">HOSTELS</span></h2>
           </div>
           <div className="space-y-4">
-            {normalHostels.map((hostel, index) => (
+            {filteredNormalHostels.map((hostel, index) => (
               <HostelCard3 key={index} hostel={hostel} />
             ))}
           </div>

@@ -1,12 +1,15 @@
 {
 	"folders": [
 		{
+			"name": "SmartCampus",
 			"path": "../.."
 		},
 		{
+			"name": "smartcampus-backend",
 			"path": "../../../smartcampus-backend"
 		},
 		{
+			"name": "smartcampus Management Centre",
 			"path": "../../../smartcampus Management Centre"
 		}
 	],

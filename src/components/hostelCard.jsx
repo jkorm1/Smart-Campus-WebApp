@@ -3,12 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
 import { Instagram } from 'lucide-react';
 
-const HostelCard = ({ title, image, price, handle }) => {
+const HostelCard = ({ title, image, price, handle, hostel }) => {
   const navigate = useNavigate();
   const placeholderImage = 'https://via.placeholder.com/140'; // Placeholder image URL
 
   const handleClick = () => {
-    navigate(`/HostelCardIn/${hostel.id}`);
+    console.log(hostel); // Log the hostel object to check its contents
+    if (hostel && hostel.id) {
+      navigate(`/HostelCardIn/${hostel.id}`);
+    } else {
+      console.error('Hostel or hostel.id is undefined');
+    }
   };
 
   return (
@@ -34,9 +39,8 @@ const HostelCard = ({ title, image, price, handle }) => {
             target="_blank"
             rel="noopener noreferrer"
             className="text-[10px] text-white"
-            
           >
-              {handle}
+            {handle}
           </a>  
         </div>
       )}
