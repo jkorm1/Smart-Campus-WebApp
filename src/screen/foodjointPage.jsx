@@ -1,10 +1,9 @@
 // src/screen/FoodJointPage.jsx
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import FoodJointCard from '@/components/FoodJointCard';
 import { fetchFoodJoints } from '@/api';
 import MenuSheet from "@/components/MenuSheet";
 import Footer from "@/components/Footer";
-import { Facebook, Instagram, Twitter } from "lucide-react";
 
 const FoodJointPage = () => {
   const [foodJoints, setFoodJoints] = useState([]);
@@ -24,6 +23,7 @@ const FoodJointPage = () => {
     getFoodJoints();
   }, []);
 
+  // Filter food joints based on the search query
   const filteredFoodJoints = foodJoints.filter(joint =>
     joint.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -32,8 +32,19 @@ const FoodJointPage = () => {
     return <div>{error}</div>;
   }
 
+  // Filter food joints by category
+  const popularFoodJoints = filteredFoodJoints.filter(joint => joint.category === 'popular');
+  const topFoodJoints = filteredFoodJoints.filter(joint => joint.category === 'top');
+  const normalFoodJoints = filteredFoodJoints.filter(joint => joint.category === 'normal');
+
   return (
     <div>
+      <nav className="flex space-x-4 p-4 bg-gray-800 text-white">
+        <a href="/" className="hover:underline">Hostels</a>
+        <a href="/food-joints" className="hover:underline">Food Joints</a>
+        <a href="/other-link" className="hover:underline">Other Link</a>
+      </nav>
+
       <div className="max-w-screen-lg p-2 mx-auto font-sans">
         <header className="">
           <div className="flex items-center justify-between">
@@ -49,29 +60,39 @@ const FoodJointPage = () => {
               type="text"
               placeholder="&#x1F4CD; Where do you want to go?"
               className="p-2 w-1/2 text-lg rounded border border-gray-300"
-              onChange={(e) => setSearchQuery(e.target.value)} // Set search query based on user input
+              onChange={(e) => setSearchQuery(e.target.value)} // Update search query based on user input
             />
           </div>
         </section>
 
         <hr className="border-t-1 border-gray-400" />
 
-        <section className="text-center py-6">
-          <h2 className="text-2xl mt-4 text-gray-800">Popular <span className="text-yellow-600">Food Joints</span></h2>
-          <div className="grid grid-cols-4 gap-10 max-w-full px-40 mx-auto">
-            {filteredFoodJoints.map((joint) => (
+        <section className="py-8">
+          <h2 className="text-2xl text-center mb-4">Popular <span className="text-yellow-600">Food Joints</span></h2>
+          <div className="grid grid-cols-4 gap-10">
+            {popularFoodJoints.map((joint) => (
               <FoodJointCard key={joint.id} joint={joint} />
             ))}
           </div>
         </section>
 
-        <hr className="border-t-1 border-gray-400" />
+        <section className="py-8">
+          <h2 className="text-2xl text-center mb-4">Top <span className="text-yellow-600">Food Joints</span></h2>
+          <div className="grid grid-cols-4 gap-10">
+            {topFoodJoints.map((joint) => (
+              <FoodJointCard key={joint.id} joint={joint} />
+            ))}
+          </div>
+        </section>
 
-        <div className="flex gap-4 ml-auto text-2xl text-gray-800 transition-colors">
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><Facebook className="hover:text-gray-500 h-4 w-4" /></a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><Instagram className="hover:text-gray-500 h-4 w-4" /></a>
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><Twitter className="hover:text-gray-500 h-4 w-4" /></a>
-        </div>
+        <section className="py-8">
+          <h2 className="text-2xl text-center mb-4">Normal <span className="text-yellow-600">Food Joints</span></h2>
+          <div className="grid grid-cols-4 gap-10">
+            {normalFoodJoints.map((joint) => (
+              <FoodJointCard key={joint.id} joint={joint} />
+            ))}
+          </div>
+        </section>
       </div>
       <Footer />
     </div>
