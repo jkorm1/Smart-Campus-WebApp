@@ -4,6 +4,7 @@ import FoodJointCard from '@/components/FoodJointCard';
 import { fetchFoodJoints } from '@/api';
 import MenuSheet from "@/components/MenuSheet";
 import Footer from "@/components/Footer";
+import PopularFoodJointCard from '@/components/PopularFoodJointCard';
 
 const FoodJointPage = () => {
   const [foodJoints, setFoodJoints] = useState([]);
@@ -68,17 +69,17 @@ const FoodJointPage = () => {
         <hr className="border-t-1 border-gray-400" />
 
         <section className="py-8">
-          <h2 className="text-2xl text-center mb-4">Popular <span className="text-yellow-600">Food Joints</span></h2>
-          <div className="grid grid-cols-4 gap-10">
+          <h2 className="text-2xl text-center mb-3">Popular <span className="text-yellow-600">Food Joints</span></h2>
+          <div className="grid grid-cols-4 gap-3">
             {popularFoodJoints.map((joint) => (
-              <FoodJointCard key={joint.id} joint={joint} />
+              <PopularFoodJointCard key={joint.id} joint={joint} />
             ))}
           </div>
         </section>
 
         <section className="py-8">
-          <h2 className="text-2xl text-center mb-4">Top <span className="text-yellow-600">Food Joints</span></h2>
-          <div className="grid grid-cols-4 gap-10">
+          <h2 className="text-2xl text-center mb-3">Top <span className="text-yellow-600">Food Joints</span></h2>
+          <div className="grid grid-cols-4 gap-3">
             {topFoodJoints.map((joint) => (
               <FoodJointCard key={joint.id} joint={joint} />
             ))}
@@ -86,8 +87,8 @@ const FoodJointPage = () => {
         </section>
 
         <section className="py-8">
-          <h2 className="text-2xl text-center mb-4">Normal <span className="text-yellow-600">Food Joints</span></h2>
-          <div className="grid grid-cols-4 gap-10">
+          <h2 className="text-2xl text-center mb-3">Normal <span className="text-yellow-600">Food Joints</span></h2>
+          <div className="grid grid-cols-4 gap-3">
             {normalFoodJoints.map((joint) => (
               <FoodJointCard key={joint.id} joint={joint} />
             ))}

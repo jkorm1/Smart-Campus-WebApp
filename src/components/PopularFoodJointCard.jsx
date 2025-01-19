@@ -3,19 +3,19 @@ import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/c
 
 const PopularFoodJointCard = ({ joint }) => {
   return (
-    <Card className="flex bg-white rounded-lg shadow-md overflow-hidden p-3 m-4 max-w-screen-md mx-auto cursor-pointer">
+    <Card className="relative cursor-pointer transform transition-transform duration-300 rounded-lg overflow-hidden w-full">
       <img 
         src={joint.image} 
         alt={joint.name} 
-        className="w-1/3 h-32 object-cover rounded-l-lg"
+        className="w-full h-[140px] object-cover rounded-t-lg"
         onError={(e) => e.target.src = 'https://via.placeholder.com/140'} // Fallback to placeholder on error
       />
-      <CardContent className="flex flex-col justify-center w-2/3 p-4">
-        <CardTitle className="text-lg font-semibold mb-1">{joint.name}</CardTitle>
-        <CardDescription className="text-sm text-yellow-500 font-semibold mb-1">
+      <CardContent className="absolute top-4 left-0 bg-black bg-opacity-50 p-2 rounded-r text-white max-w-xs">
+        <CardTitle className="text-sm font-semibold">{joint.name}</CardTitle>
+        <CardDescription className="text-xs text-gray-300">
           {joint.rating} ({joint.reviews} reviews)
         </CardDescription>
-        <CardDescription className="text-sm mb-1">Specialty: {joint.specialty}</CardDescription>
+        <CardDescription className="text-xs text-gray-300">Specialty: {joint.specialty}</CardDescription>
       </CardContent>
     </Card>
   );
